@@ -1,6 +1,7 @@
 from typing import Union
 
 from lcb_runner.utils.scenarios import Scenario
+from lcb_runner.prompts.code_generation import Language
 from lcb_runner.lm_styles import LanguageModel
 from lcb_runner.evaluation import (
     codegen_metrics,
@@ -54,7 +55,8 @@ def build_prompt_benchmark(
         else:
             benchmark = load_code_generation_dataset(args.release_version)
         benchmark = sorted(benchmark, key=lambda x: x.question_id)
-        format_prompt = format_prompt_generation
+        from functools import partial
+        format_prompt = partial(format_prompt_generation, language=Language(args.language))
     elif scenario == Scenario.testoutputprediction:
         benchmark = load_test_prediction_dataset(args.release_version)
         benchmark = sorted(benchmark, key=lambda x: (x.question_id, x.test_id))

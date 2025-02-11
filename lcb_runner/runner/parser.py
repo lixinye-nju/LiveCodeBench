@@ -14,6 +14,13 @@ def get_args():
         help="Name of the model to use matching `lm_styles.py`",
     )
     parser.add_argument(
+        "--language",
+        type=str, 
+        choices=["python", "cpp", "java"],
+        default="python",
+        help="Programming language to use."
+    )
+    parser.add_argument(
         "--local_model_path",
         type=str,
         default=None,
